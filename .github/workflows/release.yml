@@ -37,7 +37,7 @@ jobs:
         run: |
           skopeo copy -a \
             --additional-tag quay.io/aipcc-cicd/cloud-importer:latest \
-            docker://ghcr.io/mapt-oss/cloud-importer:${{ github.sha }} \
+            docker://ghcr.io/rishupk/cloud-importer:${{ github.sha }} \
             docker://quay.io/aipcc-cicd/cloud-importer:v${{ env.VERSION }}
       - name: create github release
         env:

@@ -47,7 +47,7 @@ jobs:
       - name: Build image for PR
         if: github.event_name == 'pull_request'
         env:
-          IMG: ghcr.io/mapt-oss/cloud-importer:pr-${{ github.event.number }}
+          IMG: ghcr.io/rishupk/cloud-importer:pr-${{ github.event.number }}
         shell: bash
         run: |
           make oci-build-${{ env.ARCH_TYPE }}
@@ -55,7 +55,7 @@ jobs:
       - name: Build image for main branch
         if: github.event_name == 'push'
         env:
-          IMG: ghcr.io/mapt-oss/cloud-importer:latest
+          IMG: ghcr.io/rishupk/cloud-importer:latest
         shell: bash
         run: |
           make oci-build-${{ env.ARCH_TYPE }}
@@ -77,7 +77,7 @@ jobs:
           pattern: cloud-importer-*
       - name: copy both artifacts into single directory
         env:
-          IMG: ghcr.io/mapt-oss/cloud-importer:pr-${{ github.event.number }}
+          IMG: ghcr.io/rishupk/cloud-importer:pr-${{ github.event.number }}
         run: echo ${IMG} > cloud-importer-image
       - name: Upload combined mapt artifacts for PR
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
@@ -108,11 +108,11 @@ jobs:
       - name: Push image for main branch
         if: github.event_name == 'push'
         env:
-          IMG: ghcr.io/mapt-oss/cloud-importer:latest
+          IMG: ghcr.io/rishupk/cloud-importer:latest
         shell: bash
         run: |
           make oci-load
           make oci-push
-          podman tag $IMG-arm64 ghcr.io/mapt-oss/cloud-importer:${{ github.sha }}-arm64
-          podman tag $IMG-amd64 ghcr.io/mapt-oss/cloud-importer:${{ github.sha }}-amd64
-          IMG=ghcr.io/mapt-oss/cloud-importer:${{ github.sha }} make oci-push
+          podman tag $IMG-arm64 ghcr.io/rishupk/cloud-importer:${{ github.sha }}-arm64
+          podman tag $IMG-amd64 ghcr.io/rishupk/cloud-importer:${{ github.sha }}-amd64
+          IMG=ghcr.io/rishupk/cloud-importer:${{ github.sha }} make oci-push
